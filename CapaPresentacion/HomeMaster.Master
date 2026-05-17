@@ -1,0 +1,246 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="HomeMaster.master.cs" Inherits="CapaPresentacion.HomeMaster" %>
+
+<!DOCTYPE html>
+<html>
+<head runat="server">
+
+    <meta charset="utf-8" />
+    <title>Sistema de Simulación Bancaria</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
+
+    <style>
+        body {
+            margin: 0;
+            background: #f5f7fb;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 260px;
+            background: linear-gradient(180deg, #1f2937 0%, #111827 100%);
+            color: white;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            box-shadow: 4px 0 15px rgba(0,0,0,0.15);
+        }
+
+        .sidebar-header {
+            padding: 28px 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .sidebar-header h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .sidebar-header small {
+            color: #9ca3af;
+            font-size: 12px;
+        }
+
+        .menu {
+            padding: 20px 12px;
+        }
+
+        .menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 18px;
+            margin-bottom: 8px;
+            color: #d1d5db;
+            text-decoration: none;
+            font-size: 15px;
+            border-radius: 10px;
+            transition: all .2s;
+        }
+
+        .menu a:hover {
+            background: rgba(255,255,255,0.08);
+            color: white;
+            text-decoration: none;
+        }
+
+        .menu a.active {
+            background: #2563eb;
+            color: white;
+            box-shadow: 0 4px 12px rgba(37,99,235,0.35);
+        }
+
+        .menu i {
+            width: 22px;
+            text-align: center;
+        }
+
+        .main {
+            margin-left: 260px;
+            width: calc(100% - 260px);
+            min-height: 100vh;
+        }
+
+        .topbar {
+            height: 70px;
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+        }
+
+        .topbar-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .user-box {
+            background: #f3f4f6;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .page-title {
+            margin-bottom: 25px;
+        }
+
+        .page-title h4 {
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 5px;
+        }
+
+        .page-title p {
+            color: #6b7280;
+            margin: 0;
+        }
+
+        .card {
+            border: none;
+            border-radius: 14px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+        }
+
+        .card-header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            font-weight: 700;
+            border-radius: 14px 14px 0 0 !important;
+        }
+
+        .table {
+            width: 100% !important;
+        }
+    </style>
+
+    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+    </asp:ContentPlaceHolder>
+
+</head>
+
+<body>
+
+    <form id="form1" runat="server">
+
+        <div class="layout">
+
+            <!-- SIDEBAR -->
+            <div class="sidebar">
+
+                <div class="sidebar-header">
+                    <h3>
+                        <i class="fas fa-university"></i> SIMUBANK
+                    </h3>
+                    <small>Simulación de Atención Bancaria</small>
+                </div>
+
+                <div class="menu">
+
+                    <a href="Dashboard.aspx" class="active">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Dashboard</span>
+                    </a>
+
+                    <a href="Cajeros.aspx">
+                        <i class="fas fa-user-tie"></i>
+                        <span>Cajeros</span>
+                    </a>
+
+                    <a href="TipoAtencion.aspx">
+                        <i class="fas fa-list-alt"></i>
+                        <span>Tipos de Atención</span>
+                    </a>
+
+                    <a href="Escenarios.aspx">
+                        <i class="fas fa-project-diagram"></i>
+                        <span>Escenarios</span>
+                    </a>
+
+                    <a href="HistorialSimulaciones.aspx">
+                        <i class="fas fa-history"></i>
+                        <span>Historial</span>
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- CONTENIDO PRINCIPAL -->
+            <div class="main">
+
+                <div class="topbar">
+                    <div class="topbar-title">
+                        Sistema de Simulación Bancaria
+                    </div>
+
+                    <div class="user-box">
+                        <i class="fas fa-user-circle"></i>
+                        Administrador
+                    </div>
+                </div>
+
+                <div class="content">
+                    <asp:ContentPlaceHolder ID="body" runat="server">
+                    </asp:ContentPlaceHolder>
+                </div>
+
+            </div>
+
+        </div>
+
+    </form>
+
+    <!-- JQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <!-- Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <asp:ContentPlaceHolder ID="footer" runat="server">
+    </asp:ContentPlaceHolder>
+
+</body>
+</html>
