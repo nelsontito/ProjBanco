@@ -43,6 +43,10 @@
   <ItemGroup>
     <Compile Include="DTOs\RequestDTO.cs" />
     <Compile Include="ECajero.cs" />
+    <Compile Include="EDetalleSimulacion.cs" />
+    <Compile Include="EEscenarioSimulacion.cs" />
+    <Compile Include="ESimulacion.cs" />
+    <Compile Include="ETipoAtencion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

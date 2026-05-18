@@ -86,8 +86,8 @@
                     </div>
 
                     <div class="mt-3">
-                        <asp:Button ID="btnGuardar" runat="server" Text="Guardar" CssClass="btn btn-primary btn-block" />
-                        <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-outline-secondary btn-block mt-2" />
+                        <asp:Button ID="btnGuardar" runat="server" Text="Guardar" CssClass="btn btn-primary btn-block" OnClick="btnGuardar_Click" />
+                        <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-outline-secondary btn-block mt-2" OnClick="btnCancelar_Click" />
                     </div>
 
                 </div>
@@ -117,7 +117,9 @@
                         <asp:GridView ID="gvTipoAtencion" runat="server"
                             CssClass="table table-bordered table-hover"
                             AutoGenerateColumns="False"
-                            EmptyDataText="No existen tipos de atención registrados.">
+                            EmptyDataText="No existen tipos de atención registrados."
+                            OnRowCommand="gvTipoAtencion_RowCommand">
+
 
                             <Columns>
 
@@ -152,7 +154,7 @@
 
                                         <asp:LinkButton ID="btnEditar" runat="server"
                                             CssClass="btn btn-warning btn-sm btn-action"
-                                            CommandName="Editar"
+                                            CommandName="Seleccionar"
                                             CommandArgument='<%# Eval("IdTipoAtencion") %>'>
                                             <i class="fas fa-edit"></i> Editar
                                         </asp:LinkButton>

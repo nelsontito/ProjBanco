@@ -43,6 +43,9 @@
   <ItemGroup>
     <Compile Include="ConexionBD.cs" />
     <Compile Include="DCajero.cs" />
+    <Compile Include="DEscenarioSimulacion.cs" />
+    <Compile Include="DSimulacion.cs" />
+    <Compile Include="DTipoAtencion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

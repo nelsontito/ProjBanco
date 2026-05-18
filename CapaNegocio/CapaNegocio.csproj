@@ -42,6 +42,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NCajero.cs" />
+    <Compile Include="NEscenarioSimulacion.cs" />
+    <Compile Include="NSimulacion.cs" />
+    <Compile Include="NTipoAtencion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -41,6 +41,7 @@
                 <div class="card-header">
                     <i class="fas fa-user-tie"></i>
                     Datos del Cajero
+               
                 </div>
 
                 <div class="card-body">
@@ -53,8 +54,17 @@
                     </div>
 
                     <div class="mt-3">
-                        <asp:Button ID="btnGuardar" runat="server" Text="Guardar" CssClass="btn btn-primary btn-block" />
-                        <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-outline-secondary btn-block mt-2" />
+
+                        <asp:Button ID="btnGuardar" runat="server"
+                            Text="Guardar"
+                            CssClass="btn btn-primary btn-block"
+                            OnClick="btnGuardar_Click" />
+
+                        <asp:Button ID="btnCancelar" runat="server"
+                            Text="Cancelar"
+                            CssClass="btn btn-outline-secondary btn-block mt-2"
+                            OnClick="btnCancelar_Click" />
+
                     </div>
 
                 </div>
@@ -72,8 +82,7 @@
                         Lista de Cajeros
                     </span>
 
-                    <span class="badge badge-primary">
-                        Activos
+                    <span class="badge badge-primary">Activos
                     </span>
                 </div>
 
@@ -84,7 +93,8 @@
                         <asp:GridView ID="gvCajeros" runat="server"
                             CssClass="table table-bordered table-hover"
                             AutoGenerateColumns="False"
-                            EmptyDataText="No existen cajeros registrados.">
+                            EmptyDataText="No existen cajeros registrados."
+                            OnRowCommand="gvCajeros_RowCommand">
 
                             <Columns>
 
@@ -101,20 +111,21 @@
                                 <asp:TemplateField HeaderText="Acciones">
                                     <ItemTemplate>
 
-                                        <asp:LinkButton ID="btnEditar" runat="server"
-                                            CssClass="btn btn-warning btn-sm btn-action"
-                                            CommandName="Editar"
-                                            CommandArgument='<%# Eval("IdCajero") %>'>
-                                            <i class="fas fa-edit"></i> Editar
-                                        </asp:LinkButton>
+                                       <asp:LinkButton ID="btnEditar" runat="server"
+    CssClass="btn btn-warning btn-sm btn-action"
+    CommandName="Seleccionar"
+    CommandArgument='<%# Eval("IdCajero") %>'>
+    <i class="fas fa-edit"></i> Editar
+</asp:LinkButton>
 
                                         <asp:LinkButton ID="btnEliminar" runat="server"
                                             CssClass="btn btn-danger btn-sm btn-action"
                                             CommandName="Eliminar"
                                             CommandArgument='<%# Eval("IdCajero") %>'
                                             OnClientClick="return confirm('¿Está seguro de eliminar este cajero?');">
-                                            <i class="fas fa-trash"></i> Eliminar
-                                        </asp:LinkButton>
+                    <i class="fas fa-trash"></i> Eliminar
+                </asp:LinkButton>
+
 
                                     </ItemTemplate>
                                 </asp:TemplateField>

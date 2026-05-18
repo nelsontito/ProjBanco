@@ -10,9 +10,9 @@
             transition: all .2s;
         }
 
-        .stat-card:hover {
-            transform: translateY(-3px);
-        }
+            .stat-card:hover {
+                transform: translateY(-3px);
+            }
 
         .stat-icon {
             width: 52px;
@@ -179,13 +179,17 @@
                 <div class="card-header">
                     <i class="fas fa-sliders-h"></i>
                     Configuración de Escenario
+               
                 </div>
 
                 <div class="card-body">
 
                     <div class="form-group">
                         <label>Escenario</label>
-                        <asp:DropDownList ID="cboEscenario" runat="server" CssClass="form-control">
+                        <asp:DropDownList ID="cboEscenario" runat="server"
+                            CssClass="form-control"
+                            AutoPostBack="true"
+                            OnSelectedIndexChanged="cboEscenario_SelectedIndexChanged">
                         </asp:DropDownList>
                     </div>
 
@@ -223,10 +227,14 @@
 
                     </div>
 
-                    <asp:Button ID="btnEjecutar" runat="server" Text="Ejecutar Simulación" CssClass="btn btn-primary btn-block" />
-
-                    <asp:Button ID="btnLimpiar" runat="server" Text="Limpiar" CssClass="btn btn-outline-secondary btn-block mt-2" />
-
+                    <asp:Button ID="btnEjecutar" runat="server"
+                        Text="Ejecutar Simulación"
+                        CssClass="btn btn-primary btn-block"
+                        OnClick="btnEjecutar_Click" />
+                    <asp:Button ID="btnLimpiar" runat="server"
+                        Text="Limpiar"
+                        CssClass="btn btn-outline-secondary btn-block mt-2"
+                        OnClick="btnLimpiar_Click" />
                 </div>
             </div>
 
@@ -242,8 +250,7 @@
                         Análisis de Resultados
                     </span>
 
-                    <span class="simulation-status status-normal">
-                        Estado: Normal
+                    <span class="simulation-status status-normal">Estado: Normal
                     </span>
                 </div>
 
@@ -283,6 +290,7 @@
                 <div class="card-header">
                     <i class="fas fa-list"></i>
                     Detalle de Clientes Simulados
+               
                 </div>
 
                 <div class="card-body">

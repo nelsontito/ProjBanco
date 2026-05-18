@@ -1,5 +1,6 @@
 ﻿using CapaDatos;
 using CapaEntidad;
+using CapaEntidad.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,21 +12,35 @@ namespace CapaNegocio
     public class NCajero
     {
         #region "PATRON SINGLETON"
-        private static NCajero conexion = null;
+        private static NCajero instancia = null;
 
         private NCajero() { }
 
         public static NCajero GetInstance()
         {
-            if (conexion == null)
+            if (instancia == null)
             {
-                conexion = new NCajero();
+                instancia = new NCajero();
             }
-            return conexion;
+            return instancia;
         }
         #endregion
 
-        public Respuesta<List<ECajero>> ListarCajeros()
+        public RequestDTO<bool> EditarCajero(ECajero obj)
+        {
+            return DCajero.GetInstance().EditarCajero(obj);
+        }
+        public RequestDTO<bool> EliminarCajero(int idCajero)
+        {
+            return DCajero.GetInstance().EliminarCajero(idCajero);
+        }
+
+        public RequestDTO<bool> RegistrarCajero(ECajero obj)
+        {
+            return DCajero.GetInstance().RegistrarCajero(obj);
+        }
+
+        public RequestDTO<List<ECajero>> ListarCajeros()
         {
             return DCajero.GetInstance().ListarCajeros();
         }
