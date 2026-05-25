@@ -15,40 +15,67 @@ namespace CapaPresentacion
     {
 
         /// <summary>
-        /// Control lblTotalClientes.
+        /// Control hdnTotalClientesAnimacion.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblTotalClientes;
+        protected global::System.Web.UI.WebControls.HiddenField hdnTotalClientesAnimacion;
 
         /// <summary>
-        /// Control lblTotalCajeros.
+        /// Control hdnTotalCajerosAnimacion.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblTotalCajeros;
+        protected global::System.Web.UI.WebControls.HiddenField hdnTotalCajerosAnimacion;
 
         /// <summary>
-        /// Control lblPromedioEspera.
+        /// Control hdnClientesAtendidosAnimacion.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblPromedioEspera;
+        protected global::System.Web.UI.WebControls.HiddenField hdnClientesAtendidosAnimacion;
 
         /// <summary>
-        /// Control lblSaturacion.
+        /// Control hdnClientesNoAtendidosAnimacion.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblSaturacion;
+        protected global::System.Web.UI.WebControls.HiddenField hdnClientesNoAtendidosAnimacion;
+
+        /// <summary>
+        /// Control pnlClientesCola.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlClientesCola;
+
+        /// <summary>
+        /// Control pnlCajerosVisual.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlCajerosVisual;
+
+        /// <summary>
+        /// Control pnlClientesAtendidos.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlClientesAtendidos;
 
         /// <summary>
         /// Control cboEscenario.
@@ -58,6 +85,15 @@ namespace CapaPresentacion
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList cboEscenario;
+
+        /// <summary>
+        /// Control lblEscenarioActual.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblEscenarioActual;
 
         /// <summary>
         /// Control txtCantidadClientes.
@@ -114,13 +150,31 @@ namespace CapaPresentacion
         protected global::System.Web.UI.WebControls.Button btnEjecutar;
 
         /// <summary>
-        /// Control btnLimpiar.
+        /// Control lblClientesAtendidos.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnLimpiar;
+        protected global::System.Web.UI.WebControls.Label lblClientesAtendidos;
+
+        /// <summary>
+        /// Control lblClientesNoAtendidos.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblClientesNoAtendidos;
+
+        /// <summary>
+        /// Control lblClientesCola.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblClientesCola;
 
         /// <summary>
         /// Control lblRecomendacion.
@@ -130,14 +184,5 @@ namespace CapaPresentacion
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblRecomendacion;
-
-        /// <summary>
-        /// Control gvDetalleSimulacion.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvDetalleSimulacion;
     }
 }

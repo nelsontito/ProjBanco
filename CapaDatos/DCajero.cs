@@ -39,6 +39,7 @@ namespace CapaDatos
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@IdCajero", idCajero);
 
+
                     con.Open();
                     cmd.ExecuteNonQuery();
                 }
@@ -70,7 +71,7 @@ namespace CapaDatos
 
                     cmd.Parameters.AddWithValue("@IdCajero", obj.IdCajero);
                     cmd.Parameters.AddWithValue("@NombreCajero", obj.NombreCajero);
-
+                    cmd.Parameters.AddWithValue("@Foto", obj.Foto);
                     con.Open();
                     cmd.ExecuteNonQuery();
                 }
@@ -101,7 +102,7 @@ namespace CapaDatos
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     cmd.Parameters.AddWithValue("@NombreCajero", obj.NombreCajero);
-
+                    cmd.Parameters.AddWithValue("@Foto", obj.Foto);
                     con.Open();
                     cmd.ExecuteNonQuery();
                 }
@@ -142,6 +143,7 @@ namespace CapaDatos
                         {
                             IdCajero = Convert.ToInt32(dr["IdCajero"]),
                             NombreCajero = dr["NombreCajero"].ToString(),
+                            Foto = dr["Foto"] == DBNull.Value ? "" : dr["Foto"].ToString(),
                             Estado = Convert.ToBoolean(dr["Estado"])
                         });
                     }

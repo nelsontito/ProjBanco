@@ -72,6 +72,10 @@
     <Content Include="Escenarios.aspx" />
     <Content Include="HistorialSimulaciones.aspx" />
     <Content Include="Dashboard.aspx" />
+    <Content Include="Imagenes\cajeros\defecto.jpg" />
+    <Content Include="Imagenes\cajeros\susana.jpg" />
+    <Content Include="Imagenes\cajeros\tito.jpg" />
+    <Content Include="js\General.js" />
     <Content Include="TipoAtencion.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>

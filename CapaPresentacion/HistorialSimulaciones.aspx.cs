@@ -1,9 +1,8 @@
-﻿using System;
+﻿using CapaEntidad;
+using CapaEntidad.DTOs;
+using CapaNegocio;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace CapaPresentacion
 {
@@ -11,7 +10,25 @@ namespace CapaPresentacion
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!IsPostBack)
+            {
+                ListarHistorial();
+            }
+        }
 
+        private void ListarHistorial()
+        {
+            RequestDTO<List<ESimulacion>> respuesta = NSimulacion.GetInstance().ListarSimulaciones();
+
+            if (respuesta.Estado)
+            {
+                gvHistorial.DataSource = respuesta.Data;
+                gvHistorial.DataBind();
+            }
+            else
+            {
+                Response.Write("<script>alert('" + respuesta.Mensaje + "');</script>");
+            }
         }
     }
 }

@@ -10,6 +10,7 @@ namespace CapaEntidad
     {
         public int IdCajero { get; set; }
         public string NombreCajero { get; set; }
+        public string Foto { get; set; }
         public bool Estado { get; set; }
     }
 }

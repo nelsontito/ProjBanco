@@ -4,6 +4,7 @@ using CapaNegocio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.UI;
 
 namespace CapaPresentacion
 {
@@ -18,6 +19,9 @@ namespace CapaPresentacion
                 CargarEscenarios();
             }
         }
+
+
+
 
         private void CargarEscenarios()
         {
@@ -62,6 +66,7 @@ namespace CapaPresentacion
             }
         }
 
+
         protected void btnEjecutar_Click(object sender, EventArgs e)
         {
             if (cboEscenario.SelectedValue == "0")
@@ -81,6 +86,7 @@ namespace CapaPresentacion
             }
 
             int idEscenario = Convert.ToInt32(cboEscenario.SelectedValue);
+            lblEscenarioActual.Text = cboEscenario.SelectedItem.Text;
             int totalClientes = Convert.ToInt32(txtCantidadClientes.Text);
             int totalCajeros = Convert.ToInt32(txtCantidadCajeros.Text);
             int tiempoEntreLlegadas = Convert.ToInt32(txtTiempoLlegada.Text);
@@ -129,28 +135,59 @@ namespace CapaPresentacion
                 int indiceCajero = ObtenerCajeroDisponible(tiempoLibreCajero);
                 int inicioAtencion = Math.Max(minutoLlegada, tiempoLibreCajero[indiceCajero]);
                 int tiempoEspera = inicioAtencion - minutoLlegada;
+                int finAtencion = inicioAtencion + tiempoAtencion;
 
-                tiempoLibreCajero[indiceCajero] = inicioAtencion + tiempoAtencion;
+                TimeSpan horaFinAtencion = horaInicio.Add(TimeSpan.FromMinutes(finAtencion));
 
-                sumaEspera += tiempoEspera;
-                sumaAtencion += tiempoAtencion;
-
-                detalle.Add(new EDetalleSimulacion
+                if (horaFinAtencion > horaFin)
                 {
-                    NumeroCliente = i,
-                    IdTipoAtencion = tipo.IdTipoAtencion,
-                    NombreTipo = tipo.NombreTipo,
-                    IdCajero = cajeros[indiceCajero].IdCajero,
-                    NombreCajero = cajeros[indiceCajero].NombreCajero,
-                    HoraLlegada = horaLlegada.ToString(@"hh\:mm"),
-                    TiempoEspera = tiempoEspera,
-                    TiempoAtencion = tiempoAtencion,
-                    EstadoCliente = "Atendido"
-                });
+                    detalle.Add(new EDetalleSimulacion
+                    {
+                        NumeroCliente = i,
+                        IdTipoAtencion = tipo.IdTipoAtencion,
+                        NombreTipo = tipo.NombreTipo,
+                        IdCajero = null,
+                        NombreCajero = "Sin atención",
+                        HoraLlegada = horaLlegada.ToString(@"hh\:mm"),
+                        TiempoEspera = tiempoEspera,
+                        TiempoAtencion = 0,
+                        EstadoCliente = "No atendido"
+                    });
+                }
+                else
+                {
+                    tiempoLibreCajero[indiceCajero] = finAtencion;
+
+                    sumaEspera += tiempoEspera;
+                    sumaAtencion += tiempoAtencion;
+
+                    detalle.Add(new EDetalleSimulacion
+                    {
+                        NumeroCliente = i,
+                        IdTipoAtencion = tipo.IdTipoAtencion,
+                        NombreTipo = tipo.NombreTipo,
+                        IdCajero = cajeros[indiceCajero].IdCajero,
+                        NombreCajero = cajeros[indiceCajero].NombreCajero,
+                        HoraLlegada = horaLlegada.ToString(@"hh\:mm"),
+                        TiempoEspera = tiempoEspera,
+                        TiempoAtencion = tiempoAtencion,
+                        EstadoCliente = "Atendido"
+                    });
+                }
             }
 
-            decimal promedioEspera = Math.Round((decimal)sumaEspera / totalClientes, 2);
-            decimal promedioAtencion = Math.Round((decimal)sumaAtencion / totalClientes, 2);
+            int clientesAtendidos = detalle.Count(x => x.EstadoCliente == "Atendido");
+            int clientesNoAtendidos = detalle.Count(x => x.EstadoCliente == "No atendido");
+
+            // Solo clientes atendidos que tuvieron que esperar
+            int clientesEnCola = detalle.Count(x => x.EstadoCliente == "Atendido" && x.TiempoEspera > 0);
+            decimal promedioEspera = clientesAtendidos > 0
+                ? Math.Round((decimal)sumaEspera / clientesAtendidos, 2)
+                : 0;
+
+            decimal promedioAtencion = clientesAtendidos > 0
+                ? Math.Round((decimal)sumaAtencion / clientesAtendidos, 2)
+                : 0;
 
             decimal minutosOperacion = (decimal)(horaFin - horaInicio).TotalMinutes;
 
@@ -162,7 +199,7 @@ namespace CapaPresentacion
             if (saturacion > 100)
                 saturacion = 100;
 
-            string recomendacion = GenerarRecomendacion(saturacion, promedioEspera);
+            string recomendacion = GenerarRecomendacion(saturacion, promedioEspera, clientesNoAtendidos);
 
             ESimulacion simulacion = new ESimulacion
             {
@@ -186,15 +223,26 @@ namespace CapaPresentacion
                     item.IdSimulacion = idSimulacion;
                     NSimulacion.GetInstance().RegistrarDetalleSimulacion(item);
                 }
-
-                lblTotalClientes.Text = totalClientes.ToString();
-                lblTotalCajeros.Text = totalCajeros.ToString();
-                lblPromedioEspera.Text = promedioEspera.ToString();
-                lblSaturacion.Text = saturacion.ToString();
+            
                 lblRecomendacion.Text = recomendacion;
+                lblClientesAtendidos.Text = clientesAtendidos.ToString();
+                lblClientesNoAtendidos.Text = clientesNoAtendidos.ToString();
+                lblClientesCola.Text = clientesEnCola.ToString();
+         
+                hdnClientesAtendidosAnimacion.Value = clientesAtendidos.ToString();
+                hdnClientesNoAtendidosAnimacion.Value = clientesNoAtendidos.ToString();
+                hdnTotalCajerosAnimacion.Value = totalCajeros.ToString();
+                hdnTotalClientesAnimacion.Value = totalClientes.ToString();
+                hdnTotalCajerosAnimacion.Value = totalCajeros.ToString();
 
-                gvDetalleSimulacion.DataSource = detalle;
-                gvDetalleSimulacion.DataBind();
+                pnlClientesCola.Controls.Clear();
+                pnlCajerosVisual.Controls.Clear();
+                pnlClientesAtendidos.Controls.Clear();
+
+                //pnlClientesCola.Controls.Add(new LiteralControl("<span class='text-muted'>Listo para iniciar animación</span>"));
+                //pnlCajerosVisual.Controls.Add(new LiteralControl("<span class='text-muted'>Presione iniciar animación</span>"));
+                //pnlClientesAtendidos.Controls.Add(new LiteralControl("<span class='text-muted'>Esperando atención</span>"));
+
 
                 Response.Write("<script>alert('Simulación ejecutada correctamente');</script>");
             }
@@ -203,6 +251,7 @@ namespace CapaPresentacion
                 Response.Write("<script>alert('" + respuestaSimulacion.Mensaje + "');</script>");
             }
         }
+
 
         private int ObtenerCajeroDisponible(int[] tiempoLibreCajero)
         {
@@ -221,8 +270,13 @@ namespace CapaPresentacion
             return indice;
         }
 
-        private string GenerarRecomendacion(decimal saturacion, decimal promedioEspera)
+        private string GenerarRecomendacion(decimal saturacion, decimal promedioEspera, int clientesNoAtendidos)
         {
+            if (clientesNoAtendidos > 0)
+            {
+                return "El tiempo de atención no fue suficiente. Existen clientes no atendidos; se recomienda habilitar más cajeros o ampliar el horario de atención.";
+            }
+
             if (saturacion >= 85 || promedioEspera >= 15)
             {
                 return "Se recomienda habilitar más cajeros, ya que existe alta saturación y tiempos de espera elevados.";
@@ -235,6 +289,7 @@ namespace CapaPresentacion
 
             return "La cantidad de cajeros es adecuada para este escenario.";
         }
+
 
         private string FormatearHora(string hora)
         {
@@ -257,15 +312,61 @@ namespace CapaPresentacion
             txtTiempoLlegada.Text = "0";
             txtHoraInicio.Text = "";
             txtHoraFin.Text = "";
+                              lblRecomendacion.Text = "Ejecute una simulación para generar una recomendación sobre la cantidad adecuada de cajeros.";
+            lblClientesAtendidos.Text = "0";
+            lblClientesNoAtendidos.Text = "0";
+            lblClientesCola.Text = "0";
 
-            lblTotalClientes.Text = "0";
-            lblTotalCajeros.Text = "0";
-            lblPromedioEspera.Text = "0";
-            lblSaturacion.Text = "0";
-            lblRecomendacion.Text = "Ejecute una simulación para generar una recomendación sobre la cantidad adecuada de cajeros.";
+                }
+        private void PintarModeloVisual(int totalClientes, int totalCajeros, int clientesEnCola, int clientesAtendidos)
+        {
+            pnlClientesCola.Controls.Clear();
+            pnlCajerosVisual.Controls.Clear();
+            pnlClientesAtendidos.Controls.Clear();
 
-            gvDetalleSimulacion.DataSource = null;
-            gvDetalleSimulacion.DataBind();
+            int maxMostrarCola = clientesEnCola > 12 ? 12 : clientesEnCola;
+            int maxMostrarAtendidos = clientesAtendidos > 12 ? 12 : clientesAtendidos;
+
+            for (int i = 1; i <= maxMostrarCola; i++)
+            {
+                pnlClientesCola.Controls.Add(new System.Web.UI.LiteralControl(
+                    "<span class='cliente-icono'><i class='fas fa-user'></i></span>"
+                ));
+            }
+
+            if (clientesEnCola > 12)
+            {
+                pnlClientesCola.Controls.Add(new System.Web.UI.LiteralControl(
+                    "<div class='mt-2 text-muted'>+" + (clientesEnCola - 12) + " clientes esperando</div>"
+                ));
+            }
+
+            for (int i = 1; i <= totalCajeros; i++)
+            {
+                string estado = i <= totalCajeros ? "Ocupado" : "Libre";
+
+                pnlCajerosVisual.Controls.Add(new System.Web.UI.LiteralControl(
+                    "<div class='cajero-box cajero-ocupado'>" +
+                    "<strong><i class='fas fa-user-tie'></i> Cajero " + i + "</strong><br/>" +
+                    "<small class='text-danger'>Atendiendo cliente</small>" +
+                    "</div>"
+                ));
+            }
+
+            for (int i = 1; i <= maxMostrarAtendidos; i++)
+            {
+                pnlClientesAtendidos.Controls.Add(new System.Web.UI.LiteralControl(
+                    "<span class='cliente-icono' style='background:#16a34a;'><i class='fas fa-user-check'></i></span>"
+                ));
+            }
+
+            if (clientesAtendidos > 12)
+            {
+                pnlClientesAtendidos.Controls.Add(new System.Web.UI.LiteralControl(
+                    "<div class='mt-2 text-muted'>+" + (clientesAtendidos - 12) + " clientes atendidos</div>"
+                ));
+            }
         }
     }
+
 }

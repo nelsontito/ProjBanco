@@ -134,6 +134,8 @@ namespace CapaDatos
                         lista.Add(new ESimulacion()
                         {
                             IdSimulacion = Convert.ToInt32(dr["IdSimulacion"]),
+                            NombreEscenario = dr["NombreEscenario"].ToString(),
+                            TipoEscenario = dr["TipoEscenario"].ToString(),
                             FechaSimulacion = dr["FechaSimulacion"].ToString(),
                             TotalClientes = Convert.ToInt32(dr["TotalClientes"]),
                             TotalCajeros = Convert.ToInt32(dr["TotalCajeros"]),

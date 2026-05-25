@@ -17,5 +17,7 @@ namespace CapaEntidad
         public decimal TiempoPromedioAtencion { get; set; }
         public decimal PorcentajeSaturacion { get; set; }
         public string Recomendacion { get; set; }
+        public string NombreEscenario { get; set; }
+        public string TipoEscenario { get; set; }
     }
 }

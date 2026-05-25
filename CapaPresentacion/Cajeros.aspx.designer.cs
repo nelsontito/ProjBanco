@@ -33,6 +33,24 @@ namespace CapaPresentacion
         protected global::System.Web.UI.WebControls.TextBox txtNombreCajero;
 
         /// <summary>
+        /// Control fuFoto.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FileUpload fuFoto;
+
+        /// <summary>
+        /// Control txtFoto.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField txtFoto;
+
+        /// <summary>
         /// Control btnGuardar.
         /// </summary>
         /// <remarks>

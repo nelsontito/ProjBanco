@@ -18,28 +18,29 @@ namespace CapaPresentacion
         }
         protected void gvCajeros_RowCommand(object sender, GridViewCommandEventArgs e)
         {
+            int idCajero = Convert.ToInt32(e.CommandArgument);
+
             if (e.CommandName == "Seleccionar")
             {
-                int idCajero = Convert.ToInt32(e.CommandArgument);
+                RequestDTO<List<ECajero>> respuesta = NCajero.GetInstance().ListarCajeros();
 
-                foreach (GridViewRow row in gvCajeros.Rows)
+                if (respuesta.Estado)
                 {
-                    string id = row.Cells[0].Text;
+                    ECajero cajero = respuesta.Data.Find(x => x.IdCajero == idCajero);
 
-                    if (id == idCajero.ToString())
+                    if (cajero != null)
                     {
-                        txtIdCajero.Value = idCajero.ToString();
-                        txtNombreCajero.Text = row.Cells[1].Text;
+                        txtIdCajero.Value = cajero.IdCajero.ToString();
+                        txtNombreCajero.Text = cajero.NombreCajero;
+                        txtFoto.Value = cajero.Foto;
+
                         btnGuardar.Text = "Actualizar";
-                        break;
                     }
                 }
             }
 
             if (e.CommandName == "Eliminar")
             {
-                int idCajero = Convert.ToInt32(e.CommandArgument);
-
                 RequestDTO<bool> respuesta = NCajero.GetInstance().EliminarCajero(idCajero);
 
                 if (respuesta.Estado)
@@ -57,10 +58,25 @@ namespace CapaPresentacion
 
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
+            string rutaFoto = txtFoto.Value;
+            if (fuFoto.HasFile)
+            {
+                string carpeta = Server.MapPath("~/Imagenes/Cajeros/");
+                string nombreArchivo = DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + fuFoto.FileName;
+                string rutaFisica = carpeta + nombreArchivo;
+                if (!System.IO.Directory.Exists(carpeta))
+                {
+                    System.IO.Directory.CreateDirectory(carpeta);
+                }
+                fuFoto.SaveAs(rutaFisica);
+
+                rutaFoto = "Imagenes/Cajeros/" + nombreArchivo;
+            }
             ECajero obj = new ECajero
             {
                 IdCajero = string.IsNullOrEmpty(txtIdCajero.Value) ? 0 : Convert.ToInt32(txtIdCajero.Value),
-                NombreCajero = txtNombreCajero.Text.Trim()
+                NombreCajero = txtNombreCajero.Text.Trim(),
+                Foto = rutaFoto
             };
 
             RequestDTO<bool> respuesta;
@@ -91,6 +107,7 @@ namespace CapaPresentacion
         {
             txtIdCajero.Value = "";
             txtNombreCajero.Text = "";
+            txtFoto.Value = "";
             btnGuardar.Text = "Guardar";
         }
         protected void btnCancelar_Click(object sender, EventArgs e)
