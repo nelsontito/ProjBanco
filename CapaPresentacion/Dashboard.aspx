@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/HomeMaster.Master" AutoEventWireup="true" CodeBehind="Dashboard.aspx.cs" Inherits="CapaPresentacion.Dashboard" %>
+﻿  <%@ Page Title="" Language="C#" MasterPageFile="~/HomeMaster.Master" AutoEventWireup="true" CodeBehind="Dashboard.aspx.cs" Inherits="CapaPresentacion.Dashboard" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
@@ -156,7 +156,7 @@
 }
 
 .banco-zona {
-    min-height: 220px;
+    min-height: 260px;
     background: #ffffff;
     border-radius: 16px;
     padding: 16px;
@@ -197,19 +197,23 @@
 .contenedor-cola {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
+    max-height: 300px;
+    overflow-y: auto;
+    padding-right: 6px;
 }
 
 .cliente-fila {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     background: #dbeafe;
-    border-left: 5px solid #2563eb;
-    padding: 8px 10px;
-    border-radius: 10px;
+    border-left: 4px solid #2563eb;
+    padding: 5px 8px;
+    border-radius: 8px;
     color: #1e3a8a;
     font-weight: 600;
+    font-size: 12px;
     animation: aparecerCliente .4s ease;
 }
 
@@ -217,18 +221,34 @@
     color: #2563eb;
 }
 
-.cliente-persona {
-    width: 46px;
-    height: 46px;
-    border-radius: 50%;
+        .cliente-persona {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: #2563eb;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 6px 12px rgba(37,99,235,0.25);
+        }
+    .cliente-normal {
     background: #2563eb;
-    color: white;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    box-shadow: 0 6px 12px rgba(37,99,235,0.25);
 }
+
+.cliente-vip {
+    background: #7c3aed;
+}
+
+.cliente-tercera {
+    background: #f97316;
+}
+
+.cliente-atendido-icono {
+    background: #16a34a;
+}
+
 
 .cliente-persona.verde {
     background: #16a34a;
@@ -241,7 +261,7 @@
 }
 
 .cliente-caminando {
-    position: fixed;
+    position: absolute;
     z-index: 9999;
     transition: all .9s ease-in-out;
     pointer-events: none;
@@ -312,13 +332,151 @@
     font-size: 28px;
     margin-bottom: 6px;
 }
+.kpi-panel {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.kpi-box {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 12px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    font-weight: 700;
+}
+
+.kpi-box span {
+    display: block;
+    font-size: 26px;
+    color: #111827;
+}
+
+.kpi-label {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.validacion-modelo {
+    margin-top: 15px;
+    border-radius: 12px;
+    padding: 12px 15px;
+    font-weight: 700;
+}
+
+.validacion-ok {
+    background: #dcfce7;
+    color: #166534;
+    border-left: 5px solid #16a34a;
+}
+
+.validacion-error {
+    background: #fee2e2;
+    color: #991b1b;
+    border-left: 5px solid #dc2626;
+}
+
+#panelSimulacion {
+    min-height: 650px;
+}
+.conclusion-gerencial {
+    background: #f8fafc;
+    border-left: 5px solid #0ea5e9;
+    border-radius: 10px;
+    padding: 18px;
+}
     </style>
 
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="body" runat="server">
 
-    <div class="page-title">
+
+    <div id="panelValidacionModelo" class="validacion-modelo validacion-ok">
+    <i class="fas fa-check-circle"></i>
+    Modelo pendiente de validación.
+</div>
+        <!-- CONFIGURACIÓN Y RESUMEN -->
+    <div class="row">
+        <div class="col-md-5 mb-4">
+
+            <div class="card">
+
+                <div class="card-header">
+                    <i class="fas fa-sliders-h"></i>
+                    Escenario Seleccionado
+       
+                </div>
+
+                <div class="card-body">
+
+                    <div class="form-group">
+                        <label>Escenario</label>
+                        <asp:DropDownList ID="cboEscenario" runat="server"
+                            CssClass="form-control"
+                            AutoPostBack="true"
+                            OnSelectedIndexChanged="cboEscenario_SelectedIndexChanged">
+                        </asp:DropDownList>
+                    </div>
+
+                    <h5 class="mb-3">
+                        <asp:Label ID="lblEscenarioActual" runat="server" Text="Sin escenario"></asp:Label>
+                    </h5>
+
+                    <div style="display: none;">
+                        <asp:TextBox ID="txtCantidadClientes" runat="server" Text="0"></asp:TextBox>
+                        <asp:TextBox ID="txtCantidadCajeros" runat="server" Text="0"></asp:TextBox>
+                        <asp:TextBox ID="txtTiempoLlegada" runat="server" Text="0"></asp:TextBox>
+                        <asp:TextBox ID="txtHoraInicio" runat="server"></asp:TextBox>
+                        <asp:TextBox ID="txtHoraFin" runat="server"></asp:TextBox>
+                        <asp:Label ID="lblClientesAtendidos" runat="server" Text="0"></asp:Label>
+                        <asp:Label ID="lblClientesNoAtendidos" runat="server" Text="0"></asp:Label>
+                        <asp:Label ID="lblClientesCola" runat="server" Text="0"></asp:Label>
+                    </div>
+
+                   
+
+                    <asp:Button ID="btnEjecutar" runat="server"
+                        Text="Ejecutar Simulación"
+                        CssClass="btn btn-primary btn-block mt-3"
+                        OnClick="btnEjecutar_Click" />
+
+                </div>
+
+            </div>
+
+        </div>
+                <div class="col-md-7 mb-4">
+            <div class="recommend-box">
+                <h5 class="section-title">
+                    <i class="fas fa-lightbulb text-primary"></i>
+                    Recomendación Organizacional
+                </h5>
+
+                <p class="mb-0">
+                    <asp:Label ID="lblRecomendacion" runat="server" Text="Ejecute una simulación para generar una recomendación sobre la cantidad adecuada de cajeros."></asp:Label>
+                </p>
+            </div>
+        </div>
+    <%--        <div class="col-md-12 mb-4">
+    <div class="conclusion-gerencial">
+        <h5 class="section-title">
+            <i class="fas fa-chart-line text-primary"></i>
+            Conclusión Gerencial del Escenario
+        </h5>
+
+        <p id="lblConclusionGerencial" class="mb-0">
+            Ejecute una simulación para generar una conclusión gerencial del escenario.
+        </p>
+    </div>
+</div>--%>
+
+
+
+    </div>
+        <div class="page-title">
         <h4>Dashboard de Simulación</h4>
         <asp:HiddenField ID="hdnTotalClientesAnimacion" runat="server" Value="0" />
         <asp:HiddenField ID="hdnTotalCajerosAnimacion" runat="server" Value="0" />
@@ -326,7 +484,41 @@
         <asp:HiddenField ID="hdnClientesNoAtendidosAnimacion" runat="server" Value="0" />
         <p>Panel principal para ejecutar escenarios de atención bancaria y analizar resultados.</p>
     </div>
+        <div class="kpi-panel">
+    <div class="kpi-box">
+        <span id="kpiAtendidos">0</span>
+        <div class="kpi-label">Atendidos</div>
+    </div>
 
+    <div class="kpi-box">
+        <span id="kpiNoAtendidos">0</span>
+        <div class="kpi-label">No atendidos</div>
+    </div>
+
+    <div class="kpi-box">
+        <span id="kpiCola">0</span>
+        <div class="kpi-label">En cola</div>
+    </div>
+
+    <div class="kpi-box">
+        <span id="kpiCajerosOcupados">0</span>
+        <div class="kpi-label">Cajeros ocupados</div>
+    </div>
+
+    <div class="kpi-box">
+        <span id="kpiEficiencia">0%</span>
+        <div class="kpi-label">Eficiencia</div>
+    </div>
+            <div class="kpi-box">
+    <span id="kpiEsperaPromedio">0s</span>
+    <div class="kpi-label">Espera promedio</div>
+</div>
+
+<div class="kpi-box">
+    <span id="kpiUtilizacionCajeros">0%</span>
+    <div class="kpi-label">Utilización cajeros</div>
+</div>
+</div>
     <!-- MODELO VISUAL DE SIMULACIÓN TIPO BANCO -->
 <div class="row mb-4">
     <div class="col-md-12">
@@ -463,147 +655,18 @@
         </div>
 
     </div>
-    <div class="mt-3 d-flex flex-wrap align-items-center">
-
-    <div class="mr-4 mb-2">
-        <span class="cliente-animado" style="background:#2563eb;">
-            <i class="fas fa-user"></i>
-        </span>
-        <small>Cliente en proceso</small>
-    </div>
-
-    <div class="mr-4 mb-2">
-        <span class="cliente-animado cliente-atendido">
-            <i class="fas fa-user-check"></i>
-        </span>
-        <small>Cliente atendido</small>
-    </div>
-
-    <div class="mr-4 mb-2">
-        <span class="cliente-animado cliente-no-atendido">
-            <i class="fas fa-user-times"></i>
-        </span>
-        <small>Cliente no atendido</small>
-    </div>
-
-</div>
+  
 </div>
 
-    <!-- CONFIGURACIÓN Y RESUMEN -->
-    <div class="row">
-        <div class="col-md-4 mb-4">
 
-            <div class="card">
 
-                <div class="card-header">
-                    <i class="fas fa-sliders-h"></i>
-                    Escenario Seleccionado
-       
-                </div>
-
-                <div class="card-body">
-
-                    <div class="form-group">
-                        <label>Escenario</label>
-                        <asp:DropDownList ID="cboEscenario" runat="server"
-                            CssClass="form-control"
-                            AutoPostBack="true"
-                            OnSelectedIndexChanged="cboEscenario_SelectedIndexChanged">
-                        </asp:DropDownList>
-                    </div>
-
-                    <h5 class="mb-3">
-                        <asp:Label ID="lblEscenarioActual" runat="server" Text="Sin escenario"></asp:Label>
-                    </h5>
-
-                    <div style="display: none;">
-                        <asp:TextBox ID="txtCantidadClientes" runat="server" Text="0"></asp:TextBox>
-                        <asp:TextBox ID="txtCantidadCajeros" runat="server" Text="0"></asp:TextBox>
-                        <asp:TextBox ID="txtTiempoLlegada" runat="server" Text="0"></asp:TextBox>
-                        <asp:TextBox ID="txtHoraInicio" runat="server"></asp:TextBox>
-                        <asp:TextBox ID="txtHoraFin" runat="server"></asp:TextBox>
-                    </div>
-
-                    <button type="button"
-                        class="btn btn-outline-primary btn-block"
-                        onclick="mostrarConfiguracion()">
-                        <i class="fas fa-eye"></i>
-                        Ver configuración
-   
-                    </button>
-
-                    <asp:Button ID="btnEjecutar" runat="server"
-                        Text="Ejecutar Simulación"
-                        CssClass="btn btn-primary btn-block mt-3"
-                        OnClick="btnEjecutar_Click" />
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-8 mb-4">
-
-            <div class="card h-100">
-                <div class="card-header">
-                    <i class="fas fa-info-circle"></i>
-                    Resumen del Resultado
-               
-                </div>
-
-                <div class="card-body">
-
-                    <div class="resumen-item resumen-atendido">
-                        <strong>Clientes atendidos</strong>
-                        <span class="resumen-numero">
-                            <asp:Label ID="lblClientesAtendidos" runat="server" Text="0"></asp:Label>
-                        </span>
-                        <div class="clearfix"></div>
-                    </div>
-
-                    <div class="resumen-item resumen-no-atendido">
-                        <strong>Clientes no atendidos</strong>
-                        <span class="resumen-numero">
-                            <asp:Label ID="lblClientesNoAtendidos" runat="server" Text="0"></asp:Label>
-                        </span>
-                        <div class="clearfix"></div>
-                    </div>
-
-                    <div class="resumen-item resumen-cola">
-                        <strong>Clientes atendidos que esperaron en cola</strong>
-                        <span class="resumen-numero">
-                            <asp:Label ID="lblClientesCola" runat="server" Text="0"></asp:Label>
-                        </span>
-                        <div class="clearfix"></div>
-                    </div>
-
-                    <hr />
-
-                </div>
-            </div>
-
-        </div>
-
-    </div>
 
     <!-- RECOMENDACIÓN -->
     <div class="row">
 
-        <div class="col-md-12 mb-4">
-            <div class="recommend-box">
-                <h5 class="section-title">
-                    <i class="fas fa-lightbulb text-primary"></i>
-                    Recomendación Organizacional
-                </h5>
-
-                <p class="mb-0">
-                    <asp:Label ID="lblRecomendacion" runat="server" Text="Ejecute una simulación para generar una recomendación sobre la cantidad adecuada de cajeros."></asp:Label>
-                </p>
-            </div>
-        </div>
 
     </div>
+ 
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="footer" runat="server">
@@ -619,7 +682,122 @@
     var cajerosOcupados = [];
     var simulacionDetenida = false;
     var totalAtendidosSalida = 0;
+    var clientesSimulados = [];
+    var totalTiempoEspera = 0;
+    var totalClientesConEspera = 0;
+    var tiempoOcupadoCajeros = [];
+    var horaInicioSimulacion = null;
 
+    function generarConclusionGerencial(esperaPromedio, utilizacionPromedio, enCola) {
+
+        var conclusion = document.getElementById("lblConclusionGerencial");
+
+        if (!conclusion) return;
+
+        var esperaSegundos = esperaPromedio / 1000;
+
+        if (totalAtendidosSalida === 0) {
+            conclusion.innerText =
+                "Aún no existen datos suficientes para emitir una conclusión gerencial.";
+            return;
+        }
+
+        if (utilizacionPromedio >= 85 && enCola >= 10) {
+            conclusion.innerText =
+                "El escenario presenta alta saturación operativa. La demanda supera la capacidad actual de atención, por lo que se recomienda aumentar la cantidad de cajeros o redistribuir recursos.";
+        }
+        else if (esperaSegundos >= 6) {
+            conclusion.innerText =
+                "El escenario muestra tiempos de espera considerables. Se recomienda revisar la asignación de cajeros y reforzar la atención en horarios de mayor demanda.";
+        }
+        else if (utilizacionPromedio < 40) {
+            conclusion.innerText =
+                "El escenario presenta baja utilización de cajeros. Existe capacidad ociosa, por lo que se podría optimizar la asignación del personal.";
+        }
+        else {
+            conclusion.innerText =
+                "El escenario mantiene un funcionamiento estable, con una relación adecuada entre demanda, cantidad de cajeros y tiempo de atención.";
+        }
+    }
+    function validarModelo() {
+        var atendidos = totalAtendidosSalida;
+        var noAtendidos = document.querySelectorAll(".cliente-no-atendido").length;
+        var enCola = document.querySelectorAll("#contenedorCola .cliente-fila").length;
+
+        var enAtencion = 0;
+
+        for (var i = 0; i < cajerosOcupados.length; i++) {
+            if (cajerosOcupados[i] === true) {
+                enAtencion++;
+            }
+        }
+
+        var totalCalculado = atendidos + noAtendidos + enCola + enAtencion;
+
+        var panel = document.getElementById("panelValidacionModelo");
+
+        if (!panel) return;
+
+        if (totalCalculado === totalClientesVisual) {
+            panel.className = "validacion-modelo validacion-ok";
+            panel.innerHTML =
+                "<i class='fas fa-check-circle'></i> Modelo válido: " +
+                totalClientesVisual + " clientes = " +
+                atendidos + " atendidos + " +
+                noAtendidos + " no atendidos + " +
+                enCola + " en cola + " +
+                enAtencion + " en atención.";
+        } else {
+            panel.className = "validacion-modelo validacion-error";
+            panel.innerHTML =
+                "<i class='fas fa-exclamation-triangle'></i> Modelo en proceso: " +
+                totalClientesVisual + " clientes esperados / " +
+                totalCalculado + " contabilizados actualmente.";
+        }
+    }
+    function generarOperacionBancaria() {
+        var operaciones = [
+            {
+                nombre: "Depósito",
+                min: 2000,
+                max: 4000
+            },
+            {
+                nombre: "Retiro",
+                min: 3000,
+                max: 5000
+            },
+            {
+                nombre: "Pago de servicios",
+                min: 2000,
+                max: 3000
+            },
+            {
+                nombre: "Transferencia",
+                min: 4000,
+                max: 7000
+            },
+            {
+                nombre: "Apertura de cuenta",
+                min: 8000,
+                max: 12000
+            },
+            {
+                nombre: "Crédito",
+                min: 10000,
+                max: 15000
+            }
+        ];
+
+        var operacion = operaciones[Math.floor(Math.random() * operaciones.length)];
+
+        var tiempo = Math.floor(Math.random() * (operacion.max - operacion.min + 1)) + operacion.min;
+
+        return {
+            nombre: operacion.nombre,
+            tiempoAtencion: tiempo
+        };
+    }
     function iniciarSimulacionVisual() {
         reiniciarSimulacionVisual();
 
@@ -636,6 +814,9 @@
         clienteActual = 1;
         colaClientes = [];
         cajerosOcupados = new Array(totalCajerosVisual).fill(false);
+        tiempoOcupadoCajeros = new Array(totalCajerosVisual).fill(0);
+        horaInicioSimulacion = new Date();
+        clientesSimulados = [];
 
         crearCajerosVisuales();
         cambiarEstadoAnimacion("Simulación iniciada. Los clientes ingresan y esperan turno.");
@@ -750,10 +931,15 @@
         var zonaEntrada = document.getElementById("zonaEntrada");
         var zonaCola = document.getElementById('<%= pnlClientesCola.ClientID %>');
         var tipoCliente = generarTipoCliente();
+        var operacion = generarOperacionBancaria();
 
         zonaEntrada.innerHTML = `<small class="text-primary">Cliente ${numero} ingresando...</small>`;
 
-        var cliente = crearClienteCaminando(numero, "");
+        var cliente = crearClienteCaminando(
+            numero,
+            tipoCliente.clase
+        );
+       
 
         moverElementoA(cliente, "zonaEntrada", 20, 35, function () {
             moverElementoA(cliente, "puntoFila", 20, 20, function () {
@@ -765,13 +951,19 @@
                     zonaCola.innerHTML = `<div id="contenedorCola" class="contenedor-cola"></div>`;
                 }
 
-                colaClientes.push({
+                var nuevoCliente = {
                     numero: numero,
                     tipo: tipoCliente.tipo,
                     prioridad: tipoCliente.prioridad,
                     clase: tipoCliente.clase,
-                    badge: tipoCliente.badge
-                });
+                    badge: tipoCliente.badge,
+                    operacion: operacion.nombre,
+                    tiempoAtencion: operacion.tiempoAtencion,
+                    horaLlegada: new Date()
+                };
+
+                colaClientes.push(nuevoCliente);
+                clientesSimulados.push(nuevoCliente);
 
                 dibujarColaClientes();
 
@@ -792,8 +984,13 @@
             contenedor.innerHTML += `
                 <div id="cliente_${cliente.numero}" class="cliente-fila ${cliente.clase}">
                     <i class="fas fa-user"></i>
-                    <span>Cliente ${cliente.numero}</span>
-                    ${cliente.badge}
+                   <span>
+    Cliente ${cliente.numero}
+    <small class="d-block">
+        ${cliente.operacion}
+    </small>
+</span>
+${cliente.badge}
                 </div>
             `;
         });
@@ -824,19 +1021,43 @@
             return;
         }
 
+        var clienteData = obtenerDatosCliente(numero);
+
+        var tiempoAtencion = clienteData
+            ? clienteData.tiempoAtencion
+            : generarTiempoAtencionAleatorio();
+        tiempoOcupadoCajeros[cajeroNumero - 1] += tiempoAtencion;
+
+        var operacionCliente = clienteData && clienteData.operacion
+            ? clienteData.operacion
+            : "Operación bancaria";
+        if (clienteData && clienteData.horaLlegada) {
+            var esperaMs = new Date() - clienteData.horaLlegada;
+            totalTiempoEspera += esperaMs;
+            totalClientesConEspera++;
+        }
+
         cambiarEstadoAnimacion("Cliente " + numero + " avanza al cajero " + cajeroNumero + ".");
 
         var rectCliente = clienteFila.getBoundingClientRect();
 
-        var cliente = crearClienteCaminando(numero, "");
-        cliente.style.left = rectCliente.left + "px";
-        cliente.style.top = rectCliente.top + "px";
+        var claseCliente = clienteData && clienteData.clase
+            ? clienteData.clase
+            : "";
+
+        var cliente = crearClienteCaminando(
+            numero,
+            claseCliente
+        );
+        cliente.style.left = (rectCliente.left + window.scrollX) + "px";
+        cliente.style.top = (rectCliente.top + window.scrollY) + "px";
 
         clienteFila.remove();
         removerClienteDeCola(numero);
         actualizarContadores();
 
         moverElementoA(cliente, obtenerPuntoCajero(cajeroNumero), 210, 25, function () {
+
             if (simulacionDetenida) {
                 cliente.remove();
                 if (callback) callback(cajeroNumero);
@@ -845,18 +1066,21 @@
 
             cajero.className = "cajero-box cajero-atendiendo";
             cajero.innerHTML = `
-            <strong><i class="fas fa-user-tie"></i> Cajero ${cajeroNumero}</strong><br/>
-            <small class="text-danger">Atendiendo cliente ${numero}</small>
-        `;
-
-            var tiempoAtencion = generarTiempoAtencionAleatorio();
+    <strong><i class="fas fa-user-tie"></i> Cajero ${cajeroNumero}</strong><br/>
+    <small class="text-danger">
+        Cliente ${numero}<br/>
+        Operación: ${operacionCliente}
+    </small>
+`;
 
             cambiarEstadoAnimacion(
                 "Cajero " + cajeroNumero + " atiende al cliente " + numero +
+                " en operación de " + operacionCliente +
                 " durante " + (tiempoAtencion / 1000).toFixed(1) + " segundos."
             );
 
             setTimeout(function () {
+
                 if (simulacionDetenida) {
                     cliente.remove();
                     if (callback) callback(cajeroNumero);
@@ -872,6 +1096,7 @@
                 cambiarEstadoAnimacion("Cliente " + numero + " finalizó la atención y se dirige a la salida.");
 
                 moverElementoA(cliente, "puntoSalida", 20, 30, function () {
+
                     if (simulacionDetenida) {
                         cliente.remove();
                         if (callback) callback(cajeroNumero);
@@ -889,6 +1114,15 @@
 
             }, tiempoAtencion);
         });
+    }
+    function obtenerDatosCliente(numero) {
+        for (var i = 0; i < clientesSimulados.length; i++) {
+            if (clientesSimulados[i].numero == numero) {
+                return clientesSimulados[i];
+            }
+        }
+
+        return null;
     }
 
     function obtenerPuntoCajero(cajeroNumero) {
@@ -985,49 +1219,195 @@
         cajeroOcupado = false;
         simulacionDetenida = true;
         totalAtendidosSalida = 0;
+        clientesSimulados = [];
+        totalTiempoEspera = 0;
+        totalClientesConEspera = 0;
+        tiempoOcupadoCajeros = [];
+        horaInicioSimulacion = null;
 
-        document.getElementById("zonaEntrada").innerHTML = "<span class='text-muted'>Clientes ingresan</span>";
+        document.getElementById("kpiEsperaPromedio").innerText = "0s";
+        document.getElementById("kpiUtilizacionCajeros").innerText = "0%";
+
+        document.getElementById("zonaEntrada").innerHTML =
+            "<span class='text-muted'>Clientes ingresan</span>";
+
         document.getElementById('<%= pnlClientesCola.ClientID %>').innerHTML = "";
-    document.getElementById('<%= pnlCajerosVisual.ClientID %>').innerHTML = "";
-    document.getElementById('<%= pnlClientesAtendidos.ClientID %>').innerHTML = "";
+       document.getElementById('<%= pnlCajerosVisual.ClientID %>').innerHTML = "";
+       document.getElementById('<%= pnlClientesAtendidos.ClientID %>').innerHTML = "";
 
-    cambiarEstadoAnimacion("Esperando inicio de animación.");
-    actualizarContadores();
-}
+       // RESET KPI
+       document.getElementById("kpiAtendidos").innerText = "0";
+       document.getElementById("kpiNoAtendidos").innerText = "0";
+       document.getElementById("kpiCola").innerText = "0";
+       document.getElementById("kpiCajerosOcupados").innerText = "0";
+        document.getElementById("kpiEficiencia").innerText = "0%";
+        document.getElementById("panelValidacionModelo").className =
+            "validacion-modelo validacion-ok";
 
-function crearClienteCaminando(numero, colorClase) {
-    var cliente = document.createElement("div");
-    cliente.id = "clienteCaminando_" + numero;
-    cliente.className = "cliente-persona cliente-caminando " + (colorClase || "");
-    cliente.innerHTML = '<i class="fas fa-user"></i>';
-    document.body.appendChild(cliente);
-    return cliente;
-}
+        document.getElementById("panelValidacionModelo").innerHTML =
+            "<i class='fas fa-check-circle'></i> Modelo pendiente de validación.";
 
-function moverElementoA(elemento, destinoId, ajusteX, ajusteY, callback) {
-    var destino = document.getElementById(destinoId);
-    if (!destino || !elemento) return;
+       cambiarEstadoAnimacion("Esperando inicio de animación.");
 
-    var rect = destino.getBoundingClientRect();
+       actualizarContadores();
+   }
 
-    elemento.style.left = (rect.left + (ajusteX || 10)) + "px";
-    elemento.style.top = (rect.top + (ajusteY || 10)) + "px";
+    function crearClienteCaminando(numero, colorClase) {
 
-    setTimeout(function () {
-        if (callback) callback();
-    }, 950);
-}
+        var cliente = document.createElement("div");
 
-function actualizarContadores() {
-    var atendidos = document.querySelectorAll(".cliente-atendido").length;
-    var noAtendidos = document.querySelectorAll(".cliente-no-atendido").length;
-    var enCola = document.querySelectorAll("#contenedorCola .cliente-fila").length;
+        cliente.id = "clienteCaminando_" + numero;
 
-    document.getElementById("contadorAtendidos").innerText = atendidos;
-    document.getElementById("contadorNoAtendidos").innerText = noAtendidos;
-    document.getElementById("contadorCola").innerText = enCola;
-}
+        cliente.className =
+            "cliente-persona cliente-caminando " +
+            colorClase;
 
+        cliente.innerHTML =
+            '<i class="fas fa-user"></i>';
+
+        document.body.appendChild(cliente);
+
+        return cliente;
+    }
+
+    function moverElementoA(elemento, destinoId, ajusteX, ajusteY, callback) {
+        var destino = document.getElementById(destinoId);
+
+        if (!destino || !elemento) {
+            if (callback) callback();
+            return;
+        }
+
+        var rect = destino.getBoundingClientRect();
+
+        elemento.style.left =
+            (rect.left + window.scrollX + (ajusteX || 10)) + "px";
+
+        elemento.style.top =
+            (rect.top + window.scrollY + (ajusteY || 10)) + "px";
+
+        setTimeout(function () {
+            if (callback) callback();
+        }, 950);
+    }
+
+    function actualizarContadores() {
+        var atendidos = totalAtendidosSalida;
+        var noAtendidos = document.querySelectorAll(".cliente-no-atendido").length;
+        var enCola = document.querySelectorAll("#contenedorCola .cliente-fila").length;
+
+        var ocupados = 0;
+
+        for (var i = 0; i < cajerosOcupados.length; i++) {
+            if (cajerosOcupados[i] === true) {
+                ocupados++;
+            }
+        }
+
+        var totalProcesados = atendidos + noAtendidos;
+        var eficiencia = 0;
+
+        if (totalClientesVisual > 0) {
+            eficiencia = Math.round((atendidos / totalClientesVisual) * 100);
+        }
+
+        document.getElementById("contadorAtendidos").innerText = atendidos;
+        document.getElementById("contadorNoAtendidos").innerText = noAtendidos;
+        document.getElementById("contadorCola").innerText = enCola;
+
+        document.getElementById("kpiAtendidos").innerText = atendidos;
+        document.getElementById("kpiNoAtendidos").innerText = noAtendidos;
+        document.getElementById("kpiCola").innerText = enCola;
+        document.getElementById("kpiCajerosOcupados").innerText = ocupados;
+        document.getElementById("kpiEficiencia").innerText = eficiencia + "%";
+        generarRecomendacionAutomatica(esperaPromedio, utilizacionPromedio, enCola);
+        generarConclusionGerencial(esperaPromedio, utilizacionPromedio, enCola);
+        generarRecomendacionAutomatica(0, eficiencia, enCola, noAtendidos);
+        validarModelo();
+        var esperaPromedio = 0;
+
+        if (totalClientesConEspera > 0) {
+            esperaPromedio = totalTiempoEspera / totalClientesConEspera;
+        }
+
+        var utilizacionPromedio = 0;
+
+        if (horaInicioSimulacion && tiempoOcupadoCajeros.length > 0) {
+            var tiempoTranscurrido = new Date() - horaInicioSimulacion;
+            var capacidadTotal = tiempoTranscurrido * totalCajerosVisual;
+
+            var tiempoTotalOcupado = 0;
+
+            for (var j = 0; j < tiempoOcupadoCajeros.length; j++) {
+                tiempoTotalOcupado += tiempoOcupadoCajeros[j];
+            }
+
+            if (capacidadTotal > 0) {
+                utilizacionPromedio = Math.round((tiempoTotalOcupado / capacidadTotal) * 100);
+            }
+
+            if (utilizacionPromedio > 100) {
+                utilizacionPromedio = 100;
+            }
+        }
+
+        document.getElementById("kpiEsperaPromedio").innerText =
+            (esperaPromedio / 1000).toFixed(1) + "s";
+
+        document.getElementById("kpiUtilizacionCajeros").innerText =
+            utilizacionPromedio + "%";
+
+        generarRecomendacionAutomatica(esperaPromedio, utilizacionPromedio, enCola, noAtendidos);
+
+    }
+
+    function generarRecomendacionAutomatica(esperaPromedio, utilizacionPromedio, enCola) {
+
+        var recomendacion = document.getElementById('<%= lblRecomendacion.ClientID %>');
+
+        if (!recomendacion) return;
+
+        var eficienciaReal = 0;
+
+        var totalRealClientes = totalAtendidosSalida + enCola;
+
+        if (totalRealClientes > 0) {
+            eficienciaReal = (totalAtendidosSalida / totalRealClientes) * 100;
+        }
+
+        if (totalAtendidosSalida === 0) {
+            recomendacion.innerHTML =
+                "<strong>Estado operativo: SIN DATOS</strong><br/>" +
+                "Ejecute una simulación para generar una recomendación organizacional.";
+            return;
+        }
+
+        if (eficienciaReal < 60 || enCola > 0) {
+            recomendacion.innerHTML =
+                "<strong>Estado operativo: SATURACIÓN ALTA</strong><br/>" +
+                "Solo se atendió al " + eficienciaReal.toFixed(0) +
+                "% de los clientes. Se recomienda habilitar más cajeros o ampliar el tiempo de atención.";
+            return;
+        }
+
+        if (eficienciaReal >= 60 && eficienciaReal < 85) {
+            recomendacion.innerHTML =
+                "<strong>Estado operativo: SATURACIÓN MODERADA</strong><br/>" +
+                "La atención es aceptable, pero se recomienda reforzar cajeros en horarios de mayor demanda.";
+            return;
+        }
+
+        if (eficienciaReal >= 85 && utilizacionPromedio >= 80) {
+            recomendacion.innerHTML =
+                "<strong>Estado operativo: OPERACIÓN ÓPTIMA</strong><br/>" +
+                "La atención es eficiente, aunque los cajeros presentan alta utilización.";
+            return;
+        }
+
+        recomendacion.innerHTML =
+            "<strong>Estado operativo: OPERACIÓN ESTABLE</strong><br/>" +
+            "La estructura actual de atención es adecuada para el escenario simulado.";
+    }
 function cambiarEstadoAnimacion(texto) {
     var estado = document.getElementById("lblEstadoAnimacion");
 

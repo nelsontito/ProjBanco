@@ -15,69 +15,6 @@ namespace CapaPresentacion
     {
 
         /// <summary>
-        /// Control hdnTotalClientesAnimacion.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hdnTotalClientesAnimacion;
-
-        /// <summary>
-        /// Control hdnTotalCajerosAnimacion.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hdnTotalCajerosAnimacion;
-
-        /// <summary>
-        /// Control hdnClientesAtendidosAnimacion.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hdnClientesAtendidosAnimacion;
-
-        /// <summary>
-        /// Control hdnClientesNoAtendidosAnimacion.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hdnClientesNoAtendidosAnimacion;
-
-        /// <summary>
-        /// Control pnlClientesCola.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlClientesCola;
-
-        /// <summary>
-        /// Control pnlCajerosVisual.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlCajerosVisual;
-
-        /// <summary>
-        /// Control pnlClientesAtendidos.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlClientesAtendidos;
-
-        /// <summary>
         /// Control cboEscenario.
         /// </summary>
         /// <remarks>
@@ -141,15 +78,6 @@ namespace CapaPresentacion
         protected global::System.Web.UI.WebControls.TextBox txtHoraFin;
 
         /// <summary>
-        /// Control btnEjecutar.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnEjecutar;
-
-        /// <summary>
         /// Control lblClientesAtendidos.
         /// </summary>
         /// <remarks>
@@ -177,6 +105,15 @@ namespace CapaPresentacion
         protected global::System.Web.UI.WebControls.Label lblClientesCola;
 
         /// <summary>
+        /// Control btnEjecutar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnEjecutar;
+
+        /// <summary>
         /// Control lblRecomendacion.
         /// </summary>
         /// <remarks>
@@ -184,5 +121,68 @@ namespace CapaPresentacion
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblRecomendacion;
+
+        /// <summary>
+        /// Control hdnTotalClientesAnimacion.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdnTotalClientesAnimacion;
+
+        /// <summary>
+        /// Control hdnTotalCajerosAnimacion.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdnTotalCajerosAnimacion;
+
+        /// <summary>
+        /// Control hdnClientesAtendidosAnimacion.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdnClientesAtendidosAnimacion;
+
+        /// <summary>
+        /// Control hdnClientesNoAtendidosAnimacion.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdnClientesNoAtendidosAnimacion;
+
+        /// <summary>
+        /// Control pnlClientesCola.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlClientesCola;
+
+        /// <summary>
+        /// Control pnlCajerosVisual.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlCajerosVisual;
+
+        /// <summary>
+        /// Control pnlClientesAtendidos.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlClientesAtendidos;
     }
 }

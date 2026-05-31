@@ -33,6 +33,51 @@
             color: #1f2937;
             font-size: 13px;
         }
+        .badge-estado {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 12px;
+}
+
+.estado-optimo {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.estado-moderado {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.estado-saturado {
+    background: #ffedd5;
+    color: #9a3412;
+}
+
+.estado-critico {
+    background: #fee2e2;
+    color: #991b1b;
+}
+.ranking-card {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    border-left: 5px solid #2563eb;
+}
+
+.ranking-card h6 {
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 8px;
+}
+
+.ranking-text {
+    font-size: 15px;
+    color: #374151;
+    font-weight: 600;
+}
     </style>
 
 </asp:Content>
@@ -43,7 +88,27 @@
         <h4>Historial de Simulaciones</h4>
         <p>Consulta de simulaciones realizadas y resultados obtenidos en cada escenario.</p>
     </div>
+    <div class="row mb-3">
 
+    <div class="col-md-6 mb-3">
+        <div class="ranking-card">
+            <h6>🏆 Mejor escenario</h6>
+            <asp:Label ID="lblMejorEscenario" runat="server"
+                CssClass="ranking-text"
+                Text="Sin datos"></asp:Label>
+        </div>
+    </div>
+
+    <div class="col-md-6 mb-3">
+        <div class="ranking-card">
+            <h6>⚠ Escenario más crítico</h6>
+            <asp:Label ID="lblEscenarioCritico" runat="server"
+                CssClass="ranking-text"
+                Text="Sin datos"></asp:Label>
+        </div>
+    </div>
+
+</div>
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
             <span>
@@ -120,6 +185,11 @@
                                 </span>
                             </ItemTemplate>
                         </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Estado Operativo">
+    <ItemTemplate>
+        <%# ObtenerEstadoOperativo(Eval("PorcentajeSaturacion")) %>
+    </ItemTemplate>
+</asp:TemplateField>
 
                         <asp:TemplateField HeaderText="Recomendación">
                             <ItemTemplate>
@@ -129,15 +199,6 @@
                             </ItemTemplate>
                         </asp:TemplateField>
 
-                        <asp:TemplateField HeaderText="Acción">
-                            <ItemTemplate>
-                                <asp:HyperLink ID="btnVerDetalle" runat="server"
-                                    CssClass="btn btn-info btn-sm btn-action"
-                                    NavigateUrl='<%# "DetalleSimulacion.aspx?id=" + Eval("IdSimulacion") %>'>
-                                    <i class="fas fa-eye"></i> Ver Detalle
-                                </asp:HyperLink>
-                            </ItemTemplate>
-                        </asp:TemplateField>
 
                     </Columns>
 
